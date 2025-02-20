@@ -16,7 +16,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<User> create(@RequestParam UserDto dto) {
+    public ResponseEntity<User> create(@RequestBody UserDto dto) {
         return new ResponseEntity<>(userService.create(dto), HttpStatus.OK);
     }
 
@@ -26,12 +26,12 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<User> update(@RequestParam User user) {
+    public ResponseEntity<User> update(@RequestBody User user) {
         return new ResponseEntity<>(userService.update(user), HttpStatus.OK);
     }
 
-    @DeleteMapping
-    public HttpStatus delete(@RequestParam Long id) {
+    @DeleteMapping("/{id}")
+    public HttpStatus delete(@PathVariable Long id) {
         userService.delete(id);
         return HttpStatus.OK;
     }
