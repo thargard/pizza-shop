@@ -11,13 +11,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/products")
 public class ProductController {
     @Autowired
     private ProductService productService;
 
     @PostMapping
-    public ResponseEntity<Product> create(@RequestParam ProductDTO dto){
+    public ResponseEntity<Product> create(@RequestBody ProductDTO dto){
         return new ResponseEntity<>(productService.create(dto), HttpStatus.OK);
     }
 
@@ -27,12 +26,12 @@ public class ProductController {
     }
 
     @PutMapping
-    public ResponseEntity<Product> update(@RequestParam Product product){
+    public ResponseEntity<Product> update(@RequestBody Product product){
         return new ResponseEntity<>(productService.update(product), HttpStatus.OK);
     }
 
-    @DeleteMapping
-    public HttpStatus delete(@RequestParam Long id){
+    @DeleteMapping("/{id}")
+    public HttpStatus delete(@PathVariable Long id){
         productService.delete(id);
         return HttpStatus.OK;
     }
