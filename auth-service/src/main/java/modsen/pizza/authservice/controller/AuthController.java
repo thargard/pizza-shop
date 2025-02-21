@@ -4,6 +4,8 @@ import modsen.pizza.authservice.dto.AuthRequest;
 import modsen.pizza.authservice.entity.User;
 import modsen.pizza.authservice.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,8 +20,8 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping("/register")
-    public String addNewUser(@RequestBody User user) {
-        return service.saveUser(user);
+    public ResponseEntity<User> addNewUser(@RequestBody User user) {
+        return new ResponseEntity<>(service.saveUser(user), HttpStatus.OK);
     }
 
     @PostMapping("/token")
