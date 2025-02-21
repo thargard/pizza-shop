@@ -18,6 +18,7 @@ public class AuthService {
 
     public String saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole("ROLE_USER");
         repository.save(user);
         return "saved";
     }
