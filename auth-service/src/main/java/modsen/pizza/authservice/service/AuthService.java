@@ -1,7 +1,7 @@
 package modsen.pizza.authservice.service;
 
-import modsen.pizza.authservice.entity.UserCredentials;
-import modsen.pizza.authservice.repository.UserCredentialsRepository;
+import modsen.pizza.authservice.entity.User;
+import modsen.pizza.authservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,15 +10,15 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
     @Autowired
-    private UserCredentialsRepository repository;
+    private UserRepository repository;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
     private JwtService jwtService;
 
-    public String saveUser(UserCredentials creds) {
-        creds.setPassword(passwordEncoder.encode(creds.getPassword()));
-        repository.save(creds);
+    public String saveUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        repository.save(user);
         return "saved";
     }
 

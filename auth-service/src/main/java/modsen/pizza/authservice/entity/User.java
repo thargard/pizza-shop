@@ -7,16 +7,18 @@ import jakarta.persistence.Id;
 import lombok.*;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class UserCredentials {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String email;
     private String password;
-    private String name;
+    private String username;
+    private String role;
 
     public Long getId() {
         return id;
@@ -42,11 +44,19 @@ public class UserCredentials {
         this.password = password;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

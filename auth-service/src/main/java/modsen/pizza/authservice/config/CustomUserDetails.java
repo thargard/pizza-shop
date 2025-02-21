@@ -1,6 +1,6 @@
 package modsen.pizza.authservice.config;
 
-import modsen.pizza.authservice.entity.UserCredentials;
+import modsen.pizza.authservice.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,9 +12,9 @@ public class CustomUserDetails implements UserDetails {
     private String username;
     private String password;
 
-    public CustomUserDetails(UserCredentials credentials) {
-        this.username = credentials.getName();
-        this.password = credentials.getPassword();
+    public CustomUserDetails(User user) {
+        this.username = user.getUsername();
+        this.password = user.getPassword();
     }
 
     @Override
