@@ -1,6 +1,6 @@
 package modsen.pizza.productservice.service;
 
-import modsen.pizza.productservice.dto.ProductDTO;
+import modsen.pizza.productservice.dto.ProductDtoRequest;
 import modsen.pizza.productservice.entity.Product;
 import modsen.pizza.productservice.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    public Product create(ProductDTO dto){
+    public Product create(ProductDtoRequest dto){
         return productRepository.save(Product.builder()
                 .name(dto.getName())
                 .price(dto.getPrice())
