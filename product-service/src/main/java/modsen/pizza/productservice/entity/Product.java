@@ -19,6 +19,15 @@ public class Product {
     private String name;
     private double price;
     private String description;
+    private Long categoryid;
+
+    public Long getCategoryid() {
+        return categoryid;
+    }
+
+    public void setCategoryid(Long categoryId) {
+        this.categoryid = categoryId;
+    }
 
     public Long getId() {
         return id;

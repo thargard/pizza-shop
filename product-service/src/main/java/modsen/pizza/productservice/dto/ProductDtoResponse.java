@@ -7,6 +7,15 @@ public class ProductDtoResponse {
     private String name;
     private double price;
     private String description;
+    private Long categoryid;
+
+    public Long getCategoryid() {
+        return categoryid;
+    }
+
+    public void setCategoryid(Long categoryid) {
+        this.categoryid = categoryid;
+    }
 
     public String getName() {
         return name;

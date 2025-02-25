@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: add category id column
+      author: Boris Margolin
+      changes:
+        - addColumn:
+            tableName: products
+            columns:
+              - column:
+                  name: categoryid
+                  type: bigint
+                  constraints:
+                    nullable: false
