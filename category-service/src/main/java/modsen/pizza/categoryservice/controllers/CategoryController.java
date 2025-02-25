@@ -29,6 +29,11 @@ public class CategoryController {
         return new ResponseEntity<>(categoryMapper.mapList(categoryService.readAll()), HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoryDto> readById(@PathVariable Long id){
+        return new ResponseEntity<>(categoryMapper.map(categoryService.findById(id)), HttpStatus.OK);
+    }
+
     @PutMapping
     public ResponseEntity<CategoryDto> update(@RequestBody Category category){
         return new ResponseEntity<>(categoryMapper.map(categoryService.update(category)), HttpStatus.OK);
