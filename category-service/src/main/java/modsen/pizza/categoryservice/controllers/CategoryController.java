@@ -2,6 +2,7 @@ package modsen.pizza.categoryservice.controllers;
 
 import modsen.pizza.categoryservice.dto.CategoryDto;
 import modsen.pizza.categoryservice.entity.Category;
+import modsen.pizza.categoryservice.mapper.CategoryMapper;
 import modsen.pizza.categoryservice.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,20 +16,22 @@ import java.util.List;
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private CategoryMapper categoryMapper;
 
     @PostMapping
-    public ResponseEntity<Category> create(@RequestBody CategoryDto dto){
-        return new ResponseEntity<>(categoryService.create(dto), HttpStatus.OK);
+    public ResponseEntity<CategoryDto> create(@RequestBody CategoryDto dto){
+        return new ResponseEntity<>(categoryMapper.map(categoryService.create(dto)), HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<List<Category>> readAll(){
-        return new ResponseEntity<>(categoryService.readAll(), HttpStatus.OK);
+    public ResponseEntity<List<CategoryDto>> readAll(){
+        return new ResponseEntity<>(categoryMapper.mapList(categoryService.readAll()), HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<Category> update(@RequestBody Category category){
-        return new ResponseEntity<>(categoryService.update(category), HttpStatus.OK);
+    public ResponseEntity<CategoryDto> update(@RequestBody Category category){
+        return new ResponseEntity<>(categoryMapper.map(categoryService.update(category)), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
