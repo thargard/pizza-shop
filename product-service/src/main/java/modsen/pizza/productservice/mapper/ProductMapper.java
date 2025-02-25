@@ -2,10 +2,12 @@ package modsen.pizza.productservice.mapper;
 
 import modsen.pizza.productservice.dto.ProductDtoResponse;
 import modsen.pizza.productservice.entity.Product;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class ProductMapper {
     public ProductDtoResponse mapProduct(Product product) {
         ProductDtoResponse productDtoResponse = new ProductDtoResponse();
