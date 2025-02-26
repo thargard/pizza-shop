@@ -1,9 +1,12 @@
 package modsen.pizza.categoryservice.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import modsen.pizza.categoryservice.dto.CategoryDto;
 import modsen.pizza.categoryservice.entity.Category;
 import modsen.pizza.categoryservice.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,12 +27,20 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
+    public Page<Category> readAll(Pageable pageable){
+        return categoryRepository.findAll(pageable);
+    }
+
     public Category update(Category category){
         return categoryRepository.save(category);
     }
 
     public void delete(Long id){
-        categoryRepository.deleteById(id);
+        if(categoryRepository.existsById(id)){
+            categoryRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("Category with id" + id + " not found");
+        }
     }
 
     public Category findById(Long id){

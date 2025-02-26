@@ -31,6 +31,7 @@
         <spring-cloud.version>2024.0.0</spring-cloud.version>
         <mysql.version>8.0.33</mysql.version>
         <jpa.version>3.4.2</jpa.version>
+        <openfeign.version>4.2.0</openfeign.version>
     </properties>
     <dependencies>
         <dependency>
@@ -58,7 +59,7 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
-            <version>4.2.0</version>
+            <version>${openfeign.version}</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
