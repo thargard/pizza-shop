@@ -11,7 +11,7 @@ import java.util.List;
 public class OrderItemMapper {
     public OrderItemDto toDto(OrderItem item){
         OrderItemDto dto = new OrderItemDto();
-        dto.setUserId(item.getUserId());
+        dto.setOrderId(item.getOrderId());
         dto.setProductId(item.getProductId());
         dto.setAmount(item.getAmount());
         return dto;
@@ -19,7 +19,7 @@ public class OrderItemMapper {
 
     public OrderItem fromDto(OrderItemDto dto){
         OrderItem item = new OrderItem();
-        item.setUserId(dto.getUserId());
+        item.setOrderId(dto.getOrderId());
         item.setProductId(dto.getProductId());
         item.setAmount(dto.getAmount());
         return item;
@@ -29,7 +29,7 @@ public class OrderItemMapper {
         List<OrderItemDto> dtos = new ArrayList<>();
         for (OrderItem item: items){
             OrderItemDto dto = new OrderItemDto();
-            dto.setUserId(item.getUserId());
+            dto.setOrderId(item.getOrderId());
             dto.setProductId(item.getProductId());
             dto.setAmount(item.getAmount());
             dtos.add(dto);
