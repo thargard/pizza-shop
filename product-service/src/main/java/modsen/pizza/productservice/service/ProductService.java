@@ -14,11 +14,16 @@ public class ProductService {
     private ProductRepository productRepository;
 
     public Product create(ProductDtoRequest dto){
-        return productRepository.save(Product.builder()
+        Product p = new Product();
+        p.setName(dto.getName());
+        p.setDescription(dto.getDescription());
+        p.setPrice(dto.getPrice());
+        return productRepository.save(p);
+        /*return productRepository.save(Product.builder()
                 .name(dto.getName())
                 .price(dto.getPrice())
                 .description(dto.getDescription())
-                .build());
+                .build());*/
     }
 
     public List<Product> getAll(){

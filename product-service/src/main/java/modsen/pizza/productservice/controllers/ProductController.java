@@ -17,6 +17,7 @@ import java.util.List;
 public class ProductController {
     @Autowired
     private ProductService productService;
+    @Autowired
     private ProductMapper productMapper;
 
     @PostMapping
