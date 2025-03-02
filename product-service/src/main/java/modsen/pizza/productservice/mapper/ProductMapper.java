@@ -14,6 +14,7 @@ public class ProductMapper {
         productDtoResponse.setName(product.getName());
         productDtoResponse.setDescription(product.getDescription());
         productDtoResponse.setPrice(product.getPrice());
+        productDtoResponse.setCategoryid(product.getCategoryid());
         return productDtoResponse;
     }
 
@@ -24,6 +25,7 @@ public class ProductMapper {
             productDtoResponse.setName(product.getName());
             productDtoResponse.setDescription(product.getDescription());
             productDtoResponse.setPrice(product.getPrice());
+            productDtoResponse.setCategoryid(product.getCategoryid());
             productDtoResponses.add(productDtoResponse);
         }
         return productDtoResponses;

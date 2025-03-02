@@ -43,7 +43,7 @@ public class ProductController {
     }
 
     @GetMapping("/test/{id}")
-    public ResponseEntity<ProductTestDto> test(@PathVariable Long id){
+    public ResponseEntity<List<ProductTestDto>> test(@PathVariable Long id){
         return new ResponseEntity<>(productService.getProductWithCategory(id), HttpStatus.OK);
     }
 }

@@ -1,5 +1,6 @@
 package modsen.pizza.productservice.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import modsen.pizza.productservice.dto.ProductDtoRequest;
 import modsen.pizza.productservice.dto.ProductTestDto;
 import modsen.pizza.productservice.entity.Product;
@@ -9,6 +10,7 @@ import modsen.pizza.productservice.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,12 +25,8 @@ public class ProductService {
         p.setName(dto.getName());
         p.setDescription(dto.getDescription());
         p.setPrice(dto.getPrice());
+        p.setCategoryid(dto.getCategoryid());
         return productRepository.save(p);
-        /*return productRepository.save(Product.builder()
-                .name(dto.getName())
-                .price(dto.getPrice())
-                .description(dto.getDescription())
-                .build());*/
     }
 
     public List<Product> getAll(){
@@ -40,16 +38,24 @@ public class ProductService {
     }
 
     public void delete(Long id){
-        productRepository.deleteById(id);
+        if (productRepository.existsById(id)){
+            productRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("Product with id " + id + " not found!");
+        }
     }
 
-    public ProductTestDto getProductWithCategory(Long id){
+    public List<ProductTestDto> getProductWithCategory(Long id){
         CategoryDto dto = categoryClient.getCategoryById(id);
-        Product product = productRepository.getByCategoryId(id);
+        List<Product> products = productRepository.getByCategoriesId(id);
 
+        List<ProductTestDto> productTestDtos = new ArrayList<>();
 
-        ProductTestDto test = new ProductTestDto(product.getName(), product.getPrice(), dto.getName());
-        System.out.println(test.toString());
-        return test;
+        for (Product product: products){
+            ProductTestDto productTestDto = new ProductTestDto(product.getName(), product.getPrice(), dto.getName());
+            productTestDtos.add(productTestDto);
+        }
+
+        return productTestDtos;
     }
 }
