@@ -2,6 +2,7 @@ package modsen.pizza.productservice.controllers;
 
 import modsen.pizza.productservice.dto.ProductDtoRequest;
 import modsen.pizza.productservice.dto.ProductDtoResponse;
+import modsen.pizza.productservice.dto.ProductTestDto;
 import modsen.pizza.productservice.entity.Product;
 import modsen.pizza.productservice.mapper.ProductMapper;
 import modsen.pizza.productservice.service.ProductService;
@@ -39,5 +40,10 @@ public class ProductController {
     public HttpStatus delete(@PathVariable Long id){
         productService.delete(id);
         return HttpStatus.OK;
+    }
+
+    @GetMapping("/test/{id}")
+    public ResponseEntity<ProductTestDto> test(@PathVariable Long id){
+        return new ResponseEntity<>(productService.getProductWithCategory(id), HttpStatus.OK);
     }
 }
