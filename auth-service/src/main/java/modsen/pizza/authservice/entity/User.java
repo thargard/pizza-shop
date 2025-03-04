@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Data
@@ -14,9 +16,13 @@ import lombok.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull(message = "Id cannot be null!")
     private Long id;
+    @NotBlank(message = "Email shouldn't be empty!")
     private String email;
+    @NotBlank(message = "Password shouldn't be empty!")
     private String password;
+    @NotBlank(message = "Username shouldn't be empty!")
     private String username;
     private String role;
 

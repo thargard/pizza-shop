@@ -1,5 +1,6 @@
 package modsen.pizza.categoryservice.controllers;
 
+import jakarta.validation.Valid;
 import modsen.pizza.categoryservice.dto.CategoryDto;
 import modsen.pizza.categoryservice.entity.Category;
 import modsen.pizza.categoryservice.mapper.CategoryMapper;
@@ -23,7 +24,7 @@ public class CategoryController {
     private CategoryMapper categoryMapper;
 
     @PostMapping
-    public ResponseEntity<CategoryDto> create(@RequestBody CategoryDto dto){
+    public ResponseEntity<CategoryDto> create(@Valid @RequestBody CategoryDto dto){
         return new ResponseEntity<>(categoryMapper.map(categoryService.create(dto)), HttpStatus.OK);
     }
 
@@ -48,7 +49,7 @@ public class CategoryController {
     }
 
     @PutMapping
-    public ResponseEntity<CategoryDto> update(@RequestBody Category category){
+    public ResponseEntity<CategoryDto> update(@Valid @RequestBody Category category){
         return new ResponseEntity<>(categoryMapper.map(categoryService.update(category)), HttpStatus.OK);
     }
 
