@@ -20,7 +20,7 @@ public class AuthService {
 
     public User saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole("ROLE_USER");
+        //user.setRole("ROLE_USER");
         return repository.save(user);
     }
 
