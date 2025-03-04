@@ -1,5 +1,6 @@
 package modsen.pizza.productservice.controllers;
 
+import jakarta.validation.Valid;
 import modsen.pizza.productservice.dto.ProductDtoRequest;
 import modsen.pizza.productservice.dto.ProductDtoResponse;
 import modsen.pizza.productservice.dto.ProductTestDto;
@@ -22,7 +23,7 @@ public class ProductController {
     private ProductMapper productMapper;
 
     @PostMapping
-    public ResponseEntity<ProductDtoResponse> create(@RequestBody ProductDtoRequest dto){
+    public ResponseEntity<ProductDtoResponse> create(@Valid @RequestBody ProductDtoRequest dto){
         return new ResponseEntity<>(productMapper.mapProduct(productService.create(dto)), HttpStatus.OK);
     }
 

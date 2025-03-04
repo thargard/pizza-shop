@@ -1,12 +1,19 @@
 package modsen.pizza.productservice.dto;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
 public class ProductDtoRequest {
+    @NotBlank(message = "Product name cannot be empty!")
     private String name;
+    @NotNull(message = "Price cannot be null!")
+    @Min(value = 0, message = "Price cannot be negative!")
     private double price;
     private String description;
+    @NotNull(message = "Category id cannot be null!")
     private Long categoryid;
 
     public Long getCategoryid() {
