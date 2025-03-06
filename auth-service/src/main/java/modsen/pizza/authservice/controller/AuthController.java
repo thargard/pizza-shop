@@ -1,5 +1,6 @@
 package modsen.pizza.authservice.controller;
 
+import jakarta.validation.Valid;
 import modsen.pizza.authservice.dto.AuthRequest;
 import modsen.pizza.authservice.entity.User;
 import modsen.pizza.authservice.service.AuthService;
@@ -12,7 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/v1/auth")
 public class AuthController {
     @Autowired
     private AuthService service;
@@ -20,12 +21,12 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping("/register")
-    public ResponseEntity<User> addNewUser(@RequestBody User user) {
+    public ResponseEntity<User> addNewUser(@Valid @RequestBody User user) {
         return new ResponseEntity<>(service.saveUser(user), HttpStatus.OK);
     }
 
     @PostMapping("/token")
-    public String getToken(@RequestBody AuthRequest request){
+    public String getToken(@Valid @RequestBody AuthRequest request){
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
         if (authenticate.isAuthenticated()){
             return service.generateToken(request.getUsername());
