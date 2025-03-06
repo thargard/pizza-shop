@@ -7,6 +7,7 @@ import modsen.pizza.productservice.entity.Product;
 import modsen.pizza.productservice.message.CategoryClient;
 import modsen.pizza.productservice.dto.CategoryDto;
 import modsen.pizza.productservice.repository.ProductRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,8 @@ public class ProductService {
     private ProductRepository productRepository;
     @Autowired
     private CategoryClient categoryClient;
+    @Autowired
+    private ModelMapper modelMapper;
 
     public Product create(ProductDtoRequest dto){
         Product p = new Product();
@@ -45,17 +48,23 @@ public class ProductService {
         }
     }
 
-    public List<ProductTestDto> getProductWithCategory(Long id){
-        CategoryDto dto = categoryClient.getCategoryById(id);
-        List<Product> products = productRepository.getByCategoriesId(id);
+    public List<ProductTestDto> findAll(){
+        List<CategoryDto> dtos = categoryClient.getCategories();
+        List<Product> products = productRepository.findAll();
 
         List<ProductTestDto> productTestDtos = new ArrayList<>();
 
         for (Product product: products){
-            ProductTestDto productTestDto = new ProductTestDto(product.getName(), product.getPrice(), dto.getName());
+            ProductTestDto productTestDto = modelMapper.map(product, ProductTestDto.class);
+            //new ProductTestDto(product.getId(), product.getName(), product.getPrice(), dto.getName());
+            for (CategoryDto dto: dtos){
+                if (product.getCategoryid().equals(dto.getId())){
+                    productTestDto.setCategoryName(dto.getName());
+                    break;
+                }
+            }
             productTestDtos.add(productTestDto);
         }
-
         return productTestDtos;
     }
 }

@@ -3,19 +3,27 @@ package modsen.pizza.orderitemsservice.service;
 import jakarta.persistence.EntityNotFoundException;
 import modsen.pizza.orderitemsservice.dto.OrderItemDto;
 import modsen.pizza.orderitemsservice.entity.OrderItem;
-import modsen.pizza.orderitemsservice.mapper.OrderItemMapper;
+import modsen.pizza.orderitemsservice.message.ComplexProductDto;
+import modsen.pizza.orderitemsservice.message.OrderProductDto;
+import modsen.pizza.orderitemsservice.message.ProductClient;
 import modsen.pizza.orderitemsservice.repository.OrderItemRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class OrderItemService {
     @Autowired
     private OrderItemRepository orderItemRepository;
+    @Autowired
+    private ModelMapper modelMapper;
+    @Autowired
+    private ProductClient productClient;
 
     public OrderItem save(OrderItemDto dto) {
         OrderItem orderItem = new OrderItem();
@@ -35,8 +43,32 @@ public class OrderItemService {
         if(orderItemRepository.existsById(id)){
             orderItemRepository.deleteById(id);
         } else {
-            throw new EntityNotFoundException("OrderItem with id" + id + " not found");
+            throw new EntityNotFoundException("OrderItem with id " + id + " not found");
+        }
+    }
+
+    public List<OrderProductDto> getItemsWithProducts(){
+        List<ComplexProductDto> cpds = productClient.getProducts();
+        List<OrderItemDto> items = new ArrayList<>();
+
+        for (OrderItem order: findAll()){
+            OrderItemDto dto = modelMapper.map(order, OrderItemDto.class);
+            items.add(dto);
         }
 
+        List<OrderProductDto> dtos = new ArrayList<>();
+
+        for (ComplexProductDto cpd: cpds){
+            OrderProductDto opd = modelMapper.map(cpd, OrderProductDto.class);
+            for (OrderItemDto item: items){
+                if (cpd.getId().equals(item.getProductId())){
+                    opd.setOrderId(item.getOrderId());
+                    opd.setAmount(item.getAmount());
+                    break;
+                }
+            }
+            dtos.add(opd);
+        }
+        return dtos;
     }
 }

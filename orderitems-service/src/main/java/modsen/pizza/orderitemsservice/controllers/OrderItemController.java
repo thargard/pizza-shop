@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import modsen.pizza.orderitemsservice.dto.OrderItemDto;
 import modsen.pizza.orderitemsservice.entity.OrderItem;
 import modsen.pizza.orderitemsservice.mapper.OrderItemMapper;
+import modsen.pizza.orderitemsservice.message.OrderProductDto;
 import modsen.pizza.orderitemsservice.service.OrderItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -47,5 +48,10 @@ public class OrderItemController {
     public HttpStatus delete(@PathVariable Long id){
         orderItemService.delete(id);
         return HttpStatus.OK;
+    }
+
+    @GetMapping("/withProducts")
+    public ResponseEntity<List<OrderProductDto>> getProducts(){
+        return new ResponseEntity<>(orderItemService.getItemsWithProducts(), HttpStatus.OK);
     }
 }

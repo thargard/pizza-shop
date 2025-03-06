@@ -32,6 +32,7 @@
         <mysql.version>8.0.33</mysql.version>
         <jpa.version>3.4.2</jpa.version>
         <openfeign.version>4.2.0</openfeign.version>
+        <mapper.version>3.2.0</mapper.version>
     </properties>
     <dependencies>
         <dependency>
@@ -55,7 +56,11 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>${mapper.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>

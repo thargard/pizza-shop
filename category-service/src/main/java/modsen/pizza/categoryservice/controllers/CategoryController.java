@@ -28,9 +28,14 @@ public class CategoryController {
         return new ResponseEntity<>(categoryMapper.map(categoryService.create(dto)), HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity<List<CategoryDto>> readAll(){
+    @GetMapping("/dtos")
+    public ResponseEntity<List<CategoryDto>> readAllDtos(){
         return new ResponseEntity<>(categoryMapper.mapList(categoryService.readAll()), HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Category>> readAll(){
+        return new ResponseEntity<>(categoryService.readAll(), HttpStatus.OK);
     }
 
     @GetMapping("/pages")
@@ -41,11 +46,6 @@ public class CategoryController {
 
         Page<CategoryDto> response = new PageImpl<>(categoryDtos, categoryPage.getPageable(), categoryPage.getTotalElements());
         return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<CategoryDto> readById(@PathVariable Long id){
-        return new ResponseEntity<>(categoryMapper.map(categoryService.findById(id)), HttpStatus.OK);
     }
 
     @PutMapping

@@ -1,11 +1,11 @@
-package modsen.pizza.productservice.dto;
+package modsen.pizza.orderitemsservice.message;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductTestDto {
+public class ComplexProductDto {
     private Long id;
     private String name;
     private double price;
@@ -41,14 +41,5 @@ public class ProductTestDto {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
-    }
-
-    @Override
-    public String toString() {
-        return "ProductTestDto{" +
-                "name='" + name + '\'' +
-                ", price=" + price +
-                ", categoryName='" + categoryName + '\'' +
-                '}';
     }
 }
