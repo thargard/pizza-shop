@@ -5,6 +5,7 @@ import modsen.pizza.newservice.dto.UserDto;
 import modsen.pizza.newservice.entity.User;
 import modsen.pizza.newservice.mapper.UserMapper;
 import modsen.pizza.newservice.service.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -22,10 +23,12 @@ public class UserController {
     private UserService userService;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private ModelMapper modelMapper;
 
     @PostMapping
     public ResponseEntity<UserDto> save(@Valid @RequestBody UserDto userDto) {
-        return new ResponseEntity<>(userMapper.toDto(userService.save(userDto)), HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(userService.save(userDto), UserDto.class), HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -45,12 +48,12 @@ public class UserController {
 
     @PutMapping
     public ResponseEntity<UserDto> update(@Valid @RequestBody User user) {
-        return new ResponseEntity<>(userMapper.toDto(userService.update(user)), HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(userService.update(user), UserDto.class), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public HttpStatus delete(@PathVariable Long id) {
         userService.delete(id);
-        return HttpStatus.OK;
+        return HttpStatus.NO_CONTENT;
     }
 }
