@@ -6,6 +6,7 @@ import modsen.pizza.productservice.dto.ProductTestDto;
 import modsen.pizza.productservice.entity.Product;
 import modsen.pizza.productservice.message.CategoryClient;
 import modsen.pizza.productservice.dto.CategoryDto;
+import modsen.pizza.productservice.message.CategoryName;
 import modsen.pizza.productservice.repository.ProductRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,30 @@ public class ProductService {
 
     public List<Product> getAll(){
         return productRepository.findAll();
+    }
+
+    public Product findById(Long id){
+        if (productRepository.existsById(id)){
+            return productRepository.findById(id).get();
+        } else {
+            throw new EntityNotFoundException("Product with id " + id + " not found!");
+        }
+    }
+
+    public List<Product> findByCategory(CategoryName category){
+        List<CategoryDto> dtos = categoryClient.getCategories();
+
+        List<Product> products = new ArrayList<>();
+        for (CategoryDto dto: dtos){
+            if (dto.getName().equalsIgnoreCase(category.getCategoryName())){
+                for (Product product: getAll()){
+                    if (dto.getId().equals(product.getCategoryid())){
+                        products.add(product);
+                    }
+                }
+            }
+        }
+        return products;
     }
 
     public Product update(Product product){
