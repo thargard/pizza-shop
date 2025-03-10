@@ -1,9 +1,7 @@
 package modsen.pizza.orderservice.service;
 
 import jakarta.persistence.EntityNotFoundException;
-import modsen.pizza.orderservice.dto.OrderDto;
-import modsen.pizza.orderservice.dto.OrderRequest;
-import modsen.pizza.orderservice.dto.OrderResponseDto;
+import modsen.pizza.orderservice.dto.*;
 import modsen.pizza.orderservice.entity.Order;
 import modsen.pizza.orderservice.message.OrderItemClient;
 import modsen.pizza.orderservice.message.UserClient;
@@ -13,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -45,6 +44,46 @@ public class OrderService {
         response.setUserId(req.getUserId());
         response.setItems(req.getItems());
         return response;
+    }
+
+    public List<OrderResponseDto> getAllOrders() {
+        List<Order> orders = orderRepository.findAll();
+        Page<OrderItemDto> page = orderItemClient.getOrderItems();
+        List<OrderItemDto> items = page.getContent();
+
+        List<OrderResponseDto> orderResponseDtos = new ArrayList<>();
+
+        for (Order order : orders) {
+            OrderResponseDto orderResponseDto = new OrderResponseDto();
+            orderResponseDto.setOrderId(order.getId());
+            orderResponseDto.setUserId(order.getUserId());
+            List<OrderItemRequest> requests = new ArrayList<>();
+            for (OrderItemDto item : items) {
+                if (item.getOrderId().equals(order.getId())){
+                    OrderItemRequest itemRequest = new OrderItemRequest();
+                    itemRequest.setProductId(item.getProductId());
+                    itemRequest.setAmount(item.getAmount());
+                    requests.add(itemRequest);
+                }
+            }
+            orderResponseDto.setItems(requests);
+            orderResponseDtos.add(orderResponseDto);
+        }
+        return orderResponseDtos;
+    }
+
+    public List<OrderResponseDto> getAllOrdersByUserId(Long userId) {
+        if (userClient.getUserById(userId) == null) {
+            throw new EntityNotFoundException("User not found");
+        }
+
+        List<OrderResponseDto> responses = new ArrayList<>();
+        for (OrderResponseDto orderResponseDto : getAllOrders()) {
+            if (orderResponseDto.getUserId().equals(userId)) {
+                responses.add(orderResponseDto);
+            }
+        }
+        return responses;
     }
 
     public List<Order> findAll() { return orderRepository.findAll(); }
