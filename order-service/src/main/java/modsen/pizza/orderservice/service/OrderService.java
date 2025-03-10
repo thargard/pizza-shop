@@ -2,7 +2,11 @@ package modsen.pizza.orderservice.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import modsen.pizza.orderservice.dto.OrderDto;
+import modsen.pizza.orderservice.dto.OrderRequest;
+import modsen.pizza.orderservice.dto.OrderResponseDto;
 import modsen.pizza.orderservice.entity.Order;
+import modsen.pizza.orderservice.message.OrderItemClient;
+import modsen.pizza.orderservice.message.UserClient;
 import modsen.pizza.orderservice.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,12 +19,32 @@ import java.util.List;
 public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private UserClient userClient;
+    @Autowired
+    private OrderItemClient orderItemClient;
 
     public Order save(OrderDto dto) {
         Order order = new Order();
         order.setUserId(dto.getUserId());
         return orderRepository.save(order);
         //return orderRepository.save(Order.builder().userId(dto.getUserId()).build());
+    }
+
+    public OrderResponseDto createOrder(OrderRequest req){
+        if (userClient.getUserById(req.getUserId()) == null) {
+            throw new EntityNotFoundException("User not found");
+        }
+        Order preorder = new Order();
+        preorder.setUserId(req.getUserId());
+        Order order = orderRepository.save(preorder);
+
+        orderItemClient.createOrderItems(order.getId(), req.getItems());
+        OrderResponseDto response = new OrderResponseDto();
+        response.setOrderId(order.getId());
+        response.setUserId(req.getUserId());
+        response.setItems(req.getItems());
+        return response;
     }
 
     public List<Order> findAll() { return orderRepository.findAll(); }

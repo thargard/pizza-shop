@@ -2,6 +2,7 @@ package modsen.pizza.orderitemsservice.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import modsen.pizza.orderitemsservice.dto.OrderItemDto;
+import modsen.pizza.orderitemsservice.dto.OrderItemRequest;
 import modsen.pizza.orderitemsservice.entity.OrderItem;
 import modsen.pizza.orderitemsservice.message.ComplexProductDto;
 import modsen.pizza.orderitemsservice.message.OrderProductDto;
@@ -31,6 +32,22 @@ public class OrderItemService {
         orderItem.setProductId(dto.getProductId());
         orderItem.setAmount(dto.getAmount());
         return orderItemRepository.save(orderItem);
+    }
+
+    public void createOrderItems(Long orderId, List<OrderItemRequest> items){
+        List<OrderItem> orderItems = new ArrayList<>();
+
+        for (OrderItemRequest item : items) {
+            if (productClient.getProductById(item.getProductId())==null){
+                throw new EntityNotFoundException("Product not found");
+            }
+            OrderItem orderItem = new OrderItem();
+            orderItem.setOrderId(orderId);
+            orderItem.setProductId(item.getProductId());
+            orderItem.setAmount(item.getAmount());
+            orderItems.add(orderItem);
+        }
+        orderItemRepository.saveAll(orderItems);
     }
 
     public List<OrderItem> findAll() { return orderItemRepository.findAll(); }

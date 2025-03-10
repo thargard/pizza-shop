@@ -38,8 +38,8 @@ public class ProductController {
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<ProductDtoResponse> readById(@PathVariable Long id){
-        return new ResponseEntity<>(modelMapper.map(productService.findById(id), ProductDtoResponse.class), HttpStatus.OK);
+    public ResponseEntity<Product> readById(@PathVariable Long id){
+        return new ResponseEntity<>(productService.findById(id), HttpStatus.OK);
     }
 
     @GetMapping("/category")

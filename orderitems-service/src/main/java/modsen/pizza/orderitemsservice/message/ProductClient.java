@@ -10,4 +10,7 @@ import java.util.List;
 public interface ProductClient {
     @GetMapping("/api/v1/products/items")
     List<ComplexProductDto> getProducts();
+
+    @GetMapping("/api/v1/products/get/{id}")
+    OrderProductDto getProductById(@PathVariable Long id);
 }

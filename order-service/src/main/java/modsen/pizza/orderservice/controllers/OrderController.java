@@ -2,6 +2,8 @@ package modsen.pizza.orderservice.controllers;
 
 import jakarta.validation.Valid;
 import modsen.pizza.orderservice.dto.OrderDto;
+import modsen.pizza.orderservice.dto.OrderRequest;
+import modsen.pizza.orderservice.dto.OrderResponseDto;
 import modsen.pizza.orderservice.entity.Order;
 import modsen.pizza.orderservice.mapper.OrderMapper;
 import modsen.pizza.orderservice.service.OrderService;
@@ -24,8 +26,9 @@ public class OrderController {
     private OrderMapper orderMapper;
 
     @PostMapping
-    public ResponseEntity<OrderDto> createOrder(@Valid @RequestBody OrderDto dto) {
-        return new ResponseEntity<>(orderMapper.toOrderDto(orderService.save(dto)), HttpStatus.OK);
+    public ResponseEntity<OrderResponseDto> createOrder(@RequestBody OrderRequest req) {
+        return new ResponseEntity<>(orderService.createOrder(req), HttpStatus.CREATED);
+        //return new ResponseEntity<>(orderMapper.toOrderDto(orderService.save(dto)), HttpStatus.OK);
     }
 
     @GetMapping
