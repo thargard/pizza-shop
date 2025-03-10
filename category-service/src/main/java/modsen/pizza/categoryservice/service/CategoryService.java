@@ -42,9 +42,4 @@ public class CategoryService {
             throw new EntityNotFoundException("Category with id" + id + " not found");
         }
     }
-
-    public Category findById(Long id){
-        Optional<Category> cat = categoryRepository.findById(id);
-        return cat.get();
-    }
 }

@@ -1,15 +1,17 @@
-package modsen.pizza.productservice.dto;
+package modsen.pizza.orderitemsservice.message;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductTestDto {
-    private Long id;
+public class OrderProductDto {
+    private Long id; // productId
     private String name;
     private double price;
     private String categoryName;
+    private Long orderId;
+    private int amount;
 
     public Long getId() {
         return id;
@@ -43,12 +45,19 @@ public class ProductTestDto {
         this.categoryName = categoryName;
     }
 
-    @Override
-    public String toString() {
-        return "ProductTestDto{" +
-                "name='" + name + '\'' +
-                ", price=" + price +
-                ", categoryName='" + categoryName + '\'' +
-                '}';
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 }

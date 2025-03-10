@@ -36,6 +36,11 @@ public class UserController {
         return new ResponseEntity<>(userMapper.toDtoList(userService.findAll()), HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<User> findById(@PathVariable Long id) {
+        return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
+    }
+
     @GetMapping("/pages")
     public ResponseEntity<Page<UserDto>> findPage(@RequestParam(defaultValue = "0") int page,
                                                   @RequestParam(defaultValue = "10") int size) {

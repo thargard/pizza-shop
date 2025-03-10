@@ -2,6 +2,8 @@ package modsen.pizza.orderservice.controllers;
 
 import jakarta.validation.Valid;
 import modsen.pizza.orderservice.dto.OrderDto;
+import modsen.pizza.orderservice.dto.OrderRequest;
+import modsen.pizza.orderservice.dto.OrderResponseDto;
 import modsen.pizza.orderservice.entity.Order;
 import modsen.pizza.orderservice.mapper.OrderMapper;
 import modsen.pizza.orderservice.service.OrderService;
@@ -24,17 +26,28 @@ public class OrderController {
     private OrderMapper orderMapper;
 
     @PostMapping
-    public ResponseEntity<OrderDto> createOrder(@Valid @RequestBody OrderDto dto) {
-        return new ResponseEntity<>(orderMapper.toOrderDto(orderService.save(dto)), HttpStatus.OK);
+    public ResponseEntity<OrderResponseDto> createOrder(@RequestBody OrderRequest req) {
+        return new ResponseEntity<>(orderService.createOrder(req), HttpStatus.CREATED);
+        //return new ResponseEntity<>(orderMapper.toOrderDto(orderService.save(dto)), HttpStatus.OK);
+    }
+
+    /*@GetMapping("/all")
+    public ResponseEntity<List<OrderResponseDto>> getOrders() {
+        return new ResponseEntity<>(orderService.getAllOrders(), HttpStatus.OK);
+    }*/
+
+    @GetMapping("/all/{userId}")
+    public ResponseEntity<List<OrderResponseDto>> getOrdersByUserId(@PathVariable Long userId) {
+        return new ResponseEntity<>(orderService.getAllOrdersByUserId(userId), HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<Page<OrderDto>> getAll(@RequestParam(defaultValue = "0") int page,
+    public ResponseEntity<Page<OrderResponseDto>> getAll(@RequestParam(defaultValue = "0") int page,
                                                  @RequestParam(defaultValue = "10") int size) {
         Page<Order> orderPage = orderService.findAll(PageRequest.of(page, size));
-        List<OrderDto> dtos = orderMapper.toDtoList(orderPage.getContent());
 
-        Page<OrderDto> response = new PageImpl<>(dtos, orderPage.getPageable(), orderPage.getTotalElements());
+        List<OrderResponseDto> dtos = orderService.getAllOrders();
+        Page<OrderResponseDto> response = new PageImpl<>(dtos, orderPage.getPageable(), orderPage.getTotalElements());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

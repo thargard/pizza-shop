@@ -6,12 +6,15 @@ import modsen.pizza.productservice.dto.ProductDtoResponse;
 import modsen.pizza.productservice.dto.ProductTestDto;
 import modsen.pizza.productservice.entity.Product;
 import modsen.pizza.productservice.mapper.ProductMapper;
+import modsen.pizza.productservice.message.CategoryName;
 import modsen.pizza.productservice.service.ProductService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,6 +24,8 @@ public class ProductController {
     private ProductService productService;
     @Autowired
     private ProductMapper productMapper;
+    @Autowired
+    private ModelMapper modelMapper;
 
     @PostMapping
     public ResponseEntity<ProductDtoResponse> create(@Valid @RequestBody ProductDtoRequest dto){
@@ -30,6 +35,18 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<List<ProductDtoResponse>> readAll(){
         return new ResponseEntity<>(productMapper.mapProductList(productService.getAll()), HttpStatus.OK);
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<Product> readById(@PathVariable Long id){
+        return new ResponseEntity<>(productService.findById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/category")
+    public ResponseEntity<List<ProductDtoResponse>> readByCategory(@RequestBody CategoryName category){
+        List<Product> prods = productService.findByCategory(category);
+        List<ProductDtoResponse> dtos = productMapper.mapProductList(prods);
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     @PutMapping
@@ -43,8 +60,8 @@ public class ProductController {
         return HttpStatus.OK;
     }
 
-    @GetMapping("/test/{id}")
-    public ResponseEntity<List<ProductTestDto>> test(@PathVariable Long id){
-        return new ResponseEntity<>(productService.getProductWithCategory(id), HttpStatus.OK);
+    @GetMapping("/items")
+    public ResponseEntity<List<ProductTestDto>> getProduct(){
+        return new ResponseEntity<>(productService.findAll(), HttpStatus.OK);
     }
 }

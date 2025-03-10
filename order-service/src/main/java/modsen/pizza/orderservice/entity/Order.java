@@ -16,8 +16,8 @@ import lombok.NoArgsConstructor;
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    @NotNull(message = "Id cannot be null!")
+    //@Column(name = "id")
+    //@NotNull(message = "Id cannot be null!")
     private Long id;
     //@Column(name = "user_id")
     @NotNull(message = "User id cannot be null!")

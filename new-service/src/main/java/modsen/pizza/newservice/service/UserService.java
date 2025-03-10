@@ -34,6 +34,14 @@ public class UserService {
 
     public User update(User user) { return userRepository.save(user); }
 
+    public User findById(Long id) {
+        if(userRepository.existsById(id)) {
+            return userRepository.findById(id).get();
+        } else {
+            throw new EntityNotFoundException("User with id " + id + " not found");
+        }
+    }
+
     public void delete(Long id) {
         if(userRepository.existsById(id)) {
             userRepository.deleteById(id);
