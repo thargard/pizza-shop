@@ -3,6 +3,7 @@ package modsen.pizza.categoryservice.service;
 import jakarta.persistence.EntityNotFoundException;
 import modsen.pizza.categoryservice.dto.CategoryDto;
 import modsen.pizza.categoryservice.entity.Category;
+import modsen.pizza.categoryservice.kafka.CategoryEventProducer;
 import modsen.pizza.categoryservice.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +17,8 @@ import java.util.Optional;
 public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private CategoryEventProducer categoryEventProducer;
 
     public Category create(CategoryDto dto){
         Category category = new Category();
@@ -38,6 +41,7 @@ public class CategoryService {
     public void delete(Long id){
         if(categoryRepository.existsById(id)){
             categoryRepository.deleteById(id);
+            categoryEventProducer.sendCategoryDeleteEvent(id);
         } else {
             throw new EntityNotFoundException("Category with id" + id + " not found");
         }

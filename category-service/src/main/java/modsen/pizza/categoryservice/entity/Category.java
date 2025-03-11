@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull(message = "Category id cannot be null!")
+    //@NotNull(message = "Category id cannot be null!")
     private Long id;
     @NotBlank(message = "Category name shouldn't be empty")
     private String name;
