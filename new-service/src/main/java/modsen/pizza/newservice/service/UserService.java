@@ -3,6 +3,7 @@ package modsen.pizza.newservice.service;
 import jakarta.persistence.EntityNotFoundException;
 import modsen.pizza.newservice.dto.UserDto;
 import modsen.pizza.newservice.entity.User;
+import modsen.pizza.newservice.kafka.UserEventProducer;
 import modsen.pizza.newservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserEventProducer userEventProducer;
 
     public User save(UserDto dto) {
         User user = new User();
@@ -28,9 +31,15 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public List<User> findAll() { return userRepository.findAll(); }
+    public List<User> findAll() {
+        userEventProducer.sendUserInfo(userRepository.findAll());
+        return userRepository.findAll();
+    }
 
-    public Page<User> findAll(Pageable pageable) { return userRepository.findAll(pageable); }
+    public Page<User> findAll(Pageable pageable) {
+        userEventProducer.sendUserInfo(userRepository.findAll());
+        return userRepository.findAll(pageable);
+    }
 
     public User update(User user) { return userRepository.save(user); }
 
