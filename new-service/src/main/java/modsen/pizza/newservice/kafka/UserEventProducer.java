@@ -11,7 +11,7 @@ import java.util.List;
 public class UserEventProducer {
     private final KafkaTemplate<String, List<User>> kafkaTemplate;
 
-    public UserEventProducer(KafkaTemplate<String, List<User>> kafkaTemplate, UserService userService) {
+    public UserEventProducer(KafkaTemplate<String, List<User>> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 

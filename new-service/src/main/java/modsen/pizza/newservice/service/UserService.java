@@ -32,12 +32,12 @@ public class UserService {
     }
 
     public List<User> findAll() {
-        userEventProducer.sendUserInfo(userRepository.findAll());
+        //userEventProducer.sendUserInfo(userRepository.findAll());
         return userRepository.findAll();
     }
 
     public Page<User> findAll(Pageable pageable) {
-        userEventProducer.sendUserInfo(userRepository.findAll());
+        //userEventProducer.sendUserInfo(userRepository.findAll());
         return userRepository.findAll(pageable);
     }
 

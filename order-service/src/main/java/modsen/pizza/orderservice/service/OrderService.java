@@ -79,7 +79,11 @@ public class OrderService {
         for (OrderResponseDto dto: getAllOrders()){
             UserDto user = userCacheService.getUser(dto.getUserId());
             if (user != null){
-                response.add(new OrderResponseExpandedDto(dto.getOrderId(), user.getUsername(), dto.getItems()));
+                OrderResponseExpandedDto rs = new OrderResponseExpandedDto();
+                rs.setOrderId(dto.getOrderId());
+                rs.setUsername(user.getUsername());
+                rs.setItems(dto.getItems());
+                response.add(rs);
             } else {
                 throw new EntityNotFoundException("User not found!");
             }
