@@ -3,6 +3,7 @@ package modsen.pizza.categoryservice.service;
 import jakarta.persistence.EntityNotFoundException;
 import modsen.pizza.categoryservice.dto.CategoryDto;
 import modsen.pizza.categoryservice.entity.Category;
+import modsen.pizza.categoryservice.exceptions.CustomExceptionMessages;
 import modsen.pizza.categoryservice.kafka.CategoryEventProducer;
 import modsen.pizza.categoryservice.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class CategoryService {
             categoryRepository.deleteById(id);
             categoryEventProducer.sendCategoryDeleteEvent(id);
         } else {
-            throw new EntityNotFoundException("Category with id" + id + " not found");
+            throw new EntityNotFoundException(CustomExceptionMessages.CATEGORY_NOT_FOUND + id);
         }
     }
 }
