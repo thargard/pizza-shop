@@ -22,6 +22,8 @@ public class OrderService {
     private UserClient userClient;
     @Autowired
     private OrderItemClient orderItemClient;
+    @Autowired
+    private UserCacheService userCacheService;
 
     public Order save(OrderDto dto) {
         Order order = new Order();
@@ -70,6 +72,19 @@ public class OrderService {
             orderResponseDtos.add(orderResponseDto);
         }
         return orderResponseDtos;
+    }
+
+    public List<OrderResponseExpandedDto> getAllExpandedOrders(){
+        List<OrderResponseExpandedDto> response = new ArrayList<>();
+        for (OrderResponseDto dto: getAllOrders()){
+            UserDto user = userCacheService.getUser(dto.getUserId());
+            if (user != null){
+                response.add(new OrderResponseExpandedDto(dto.getOrderId(), user.getUsername(), dto.getItems()));
+            } else {
+                throw new EntityNotFoundException("User not found!");
+            }
+        }
+        return response;
     }
 
     public List<OrderResponseDto> getAllOrdersByUserId(Long userId) {

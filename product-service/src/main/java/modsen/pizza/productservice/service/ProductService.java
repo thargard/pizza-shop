@@ -73,6 +73,11 @@ public class ProductService {
         }
     }
 
+    public void deleteByCategoryId(Long categoryId){
+        List<Product> products = productRepository.getByCategoryId(categoryId);
+        productRepository.deleteAll(products);
+    }
+
     public List<ProductTestDto> findAll(){
         List<CategoryDto> dtos = categoryClient.getCategories();
         List<Product> products = productRepository.findAll();

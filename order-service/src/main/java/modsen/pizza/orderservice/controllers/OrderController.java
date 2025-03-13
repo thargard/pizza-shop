@@ -4,7 +4,9 @@ import jakarta.validation.Valid;
 import modsen.pizza.orderservice.dto.OrderDto;
 import modsen.pizza.orderservice.dto.OrderRequest;
 import modsen.pizza.orderservice.dto.OrderResponseDto;
+import modsen.pizza.orderservice.dto.OrderResponseExpandedDto;
 import modsen.pizza.orderservice.entity.Order;
+import modsen.pizza.orderservice.kafka.OrderEventConsumer;
 import modsen.pizza.orderservice.mapper.OrderMapper;
 import modsen.pizza.orderservice.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,8 @@ public class OrderController {
     private OrderService orderService;
     @Autowired
     private OrderMapper orderMapper;
+    @Autowired
+    private OrderEventConsumer consumer;
 
     @PostMapping
     public ResponseEntity<OrderResponseDto> createOrder(@RequestBody OrderRequest req) {
