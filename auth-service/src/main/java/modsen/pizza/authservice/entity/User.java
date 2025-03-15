@@ -16,7 +16,7 @@ import lombok.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull(message = "Id cannot be null!")
+    //@NotNull(message = "Id cannot be null!")
     private Long id;
     @NotBlank(message = "Email shouldn't be empty!")
     private String email;

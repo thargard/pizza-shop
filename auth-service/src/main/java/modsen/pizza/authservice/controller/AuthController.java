@@ -2,6 +2,8 @@ package modsen.pizza.authservice.controller;
 
 import jakarta.validation.Valid;
 import modsen.pizza.authservice.dto.AuthRequest;
+import modsen.pizza.authservice.dto.RegisterRequest;
+import modsen.pizza.authservice.dto.UserDto;
 import modsen.pizza.authservice.entity.User;
 import modsen.pizza.authservice.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +23,8 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping("/register")
-    public ResponseEntity<User> addNewUser(@Valid @RequestBody User user) {
-        return new ResponseEntity<>(service.saveUser(user), HttpStatus.OK);
+    public ResponseEntity<User> addNewUser(@RequestBody RegisterRequest req) {
+        return new ResponseEntity<>(service.saveUser(req), HttpStatus.OK);
     }
 
     @PostMapping("/token")

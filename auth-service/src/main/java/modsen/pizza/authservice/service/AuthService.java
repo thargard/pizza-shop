@@ -1,5 +1,7 @@
 package modsen.pizza.authservice.service;
 
+import modsen.pizza.authservice.dto.RegisterRequest;
+import modsen.pizza.authservice.dto.UserDto;
 import modsen.pizza.authservice.entity.User;
 import modsen.pizza.authservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +20,12 @@ public class AuthService {
     @Autowired
     private JwtService jwtService;
 
-    public User saveUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        //user.setRole("ROLE_USER");
+    public User saveUser(RegisterRequest req) {
+        User user = new User();
+        user.setUsername(req.getUsername());
+        user.setPassword(passwordEncoder.encode(req.getPassword()));
+        user.setEmail(req.getEmail());
+        user.setRole("ROLE_USER");
         return repository.save(user);
     }
 
