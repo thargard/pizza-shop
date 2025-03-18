@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchProducts } from "../services/productsService"
+import {getUserData} from "../services/authService";
 
 interface Product {
     id: number,
@@ -18,6 +19,10 @@ const Home = () => {
             const data = await fetchProducts();
             setProducts(data.slice(0, 4)); // Показываем только 4 топовых пиццы
         };
+        const loadUser = async () => {
+            await getUserData();
+        };
+        loadUser();
         loadProducts();
     }, []);
 

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { login } from "../services/authService";
+import {useEffect, useState} from "react";
+import {getUserData, login} from "../services/authService";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
@@ -11,7 +11,6 @@ export default function Login() {
         e.preventDefault();
         try {
             await login(username, password);
-            console.log("Этот код выполняется!")
             navigate("/");
         } catch (error) {
             alert("Ошибка входа!");

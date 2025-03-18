@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { fetchProducts} from "../services/productsService";
 import ProductCard from "../components/ProductCard";
+import "../css/products.css"
 
 export interface Product {
     id: number,
     name: string,
     description: string,
     price: number,
-    categoryName: string
+    categoryName: string,
+    quantity?: number
 }
 
 interface GroupedProducts {
@@ -33,15 +35,15 @@ const Products = () => {
 
     return (
         <div className="container mx-auto p-6">
-            <h1 className="text-4xl font-bold mb-8 text-center">Наше меню</h1>
+            <h1 className="menu">Наше меню</h1>
 
             {Object.keys(groupedProducts).map((category) => (
                 <div key={category} className="mb-12">
-                    <h2 className="text-3xl font-bold mt-10 mb-6 capitalize text-gray-800">
+                    <h2 className="product-category">
                         {category === "Пиццы" ? "Сытные пиццы" : category}
                     </h2>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div className="product-grid">
                         {groupedProducts[category].map((product) => (
                             <ProductCard key={product.id} product = { product } />
                         ))}

@@ -1,29 +1,30 @@
 import {Product} from "../pages/products";
-import styles from "./ProductCard.module.css"
-import {Component} from "react";
+import '../css/productCard.css'
 import Loader from "./Loader";
+import {useCart} from "../services/cartContext";
+import NumberInput from "./NumberInput";
+import {useState} from "react";
 
-class ProductCard extends Component<{ product: Product }> {
-    render() {
-        let {product} = this.props;
-        return (
-            <div className={styles["productCard"]}>
-                <Loader />
-
-                {/* Название */}
-                <h2 className={styles["product-name"]}>{product.name}</h2>
-
-                {/* Описание */}
-                <p className={styles["product-description"]}>{product.description}</p>
-
-                {/* Цена */}
-                <p className={styles["product-price"]}>от {product.price} руб.</p>
-
-                {/* Кнопка выбора */}
-                <button className={styles["product-button"]}>Выбрать</button>
-            </div>
-        );
-    }
+interface ProductCardProps {
+    product: Product
 }
+
+const ProductCard: React.FC<{product : Product }> = ({ product }: ProductCardProps) => {
+    const { addToCart } = useCart();
+    const [quantity, setQuantity] = useState(1);
+
+    const orderProduct = {...product, quantity}
+
+    return (
+        <div className="product-card">
+            <Loader />
+            <h2 className="product-name">{product.name}</h2>
+            <p className="product-description">{product.description}</p>
+            <p className="product-price">{product.price} ₽</p>
+            <NumberInput value={quantity} setValue={setQuantity}/>
+            <button onClick={() => addToCart(orderProduct)} className="product-button">Добавить в корзину</button>
+        </div>
+    );
+};
 
 export default ProductCard;

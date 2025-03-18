@@ -42,4 +42,9 @@ public class AuthController {
         service.validateToken(token);
         return "Token is valid!";
     }
+
+    @GetMapping("/userFromToken")
+    public ResponseEntity<User> getUser(@RequestParam("token") String token){
+        return new ResponseEntity<>(service.getUserFromToken(token), HttpStatus.OK);
+    }
 }

@@ -22,7 +22,7 @@ public class AuthConfig {
         return http
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/api/v1/auth/register", "/api/v1/auth/token",
+                                .requestMatchers("/api/v1/auth/register", "/api/v1/auth/token", "/api/v1/auth/userFromToken",
                                         "/api/v1/auth/validate").permitAll())
                 .csrf(crsf -> crsf.disable())
                 .build();

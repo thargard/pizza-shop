@@ -36,4 +36,12 @@ public class AuthService {
     public void validateToken(String token) {
         jwtService.validateToken(token);
     }
+
+    public User getUser(String username) {
+        return repository.findByUsername(username).get();
+    }
+
+    public User getUserFromToken(String token) {
+        return repository.findByUsername(jwtService.getUsernameFromToken(token)).get();
+    }
 }
