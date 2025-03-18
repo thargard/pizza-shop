@@ -1,0 +1,107 @@
+.cart-drawer {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 350px;
+    height: 100%;
+    background: white;
+    box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
+    transition: right 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.cart-drawer.open {
+    right: 0;
+}
+
+/* Контейнер товаров внутри корзины */
+.cart-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 20px;
+}
+
+/* Блок со списком товаров — делаем прокручиваемым */
+.cart-items {
+    flex-grow: 1;
+    overflow-y: auto;
+    max-height: 70vh;
+    padding-right: 5px;
+}
+
+/* Стили для полосы прокрутки */
+.cart-items::-webkit-scrollbar {
+    width: 6px;
+}
+
+.cart-items::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 3px;
+}
+
+.cart-items::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Компактные карточки товаров */
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+.cart-item h3 {
+    font-size: 14px;
+    margin: 0;
+    flex-grow: 1;
+}
+
+.cart-item p {
+    font-size: 12px;
+    margin: 0 8px;
+    white-space: nowrap;
+}
+
+.cart-item button {
+    font-size: 12px;
+    padding: 4px 6px;
+    background: #ff6600;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.close-btn {
+    align-self: flex-end;
+    font-size: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Оформить заказ */
+.checkout-btn {
+    margin-top: 10px;
+    background-color: #ff6600;
+    color: white;
+    padding: 12px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+.cart-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+    padding: 10px 0;
+    border-top: 2px solid #ddd;
+}
