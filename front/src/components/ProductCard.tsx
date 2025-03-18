@@ -8,18 +8,7 @@ class ProductCard extends Component<{ product: Product }> {
         let {product} = this.props;
         return (
             <div className={styles["productCard"]}>
-                {/* Новинка */}
-                {/*{product.isNew && (
-                <span className={styles["newBadge"]}>Новинка</span>
-            )}*/}
-
-                {/* Фото */}
                 <Loader />
-                {/*<img
-                    src="/pizza.png"
-                    alt={product.name}
-                    className={styles["product-image"]}
-                />*/}
 
                 {/* Название */}
                 <h2 className={styles["product-name"]}>{product.name}</h2>

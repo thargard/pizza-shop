@@ -32,21 +32,6 @@ const Home = () => {
                     </Link>
                 </div>
             </div>
-
-            <h2 className="text-3xl font-bold text-center mt-12 mb-6">Популярные пиццы</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {products.map((product) => (
-                    <div key={product.id} className="bg-white rounded-2xl shadow-lg p-4 flex flex-col items-center">
-                        <img src="/pizza.png" alt={product.name} className="w-48 h-48 object-cover rounded-lg mb-4" />
-                        <h2 className="text-xl font-semibold">{product.name}</h2>
-                        <p className="text-gray-600">{product.description}</p>
-                        <p className="text-lg font-bold mt-2">{product.price} ₽</p>
-                        <button className="mt-4 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600">
-                            Заказать
-                        </button>
-                    </div>
-                ))}
-            </div>
         </div>
     );
 };
