@@ -11,7 +11,8 @@ export default function Login() {
         e.preventDefault();
         try {
             await login(username, password);
-            navigate("/dashboard");
+            console.log("Этот код выполняется!")
+            navigate("/");
         } catch (error) {
             alert("Ошибка входа!");
         }

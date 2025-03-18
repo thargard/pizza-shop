@@ -9,6 +9,7 @@ public class ProductTestDto {
     private Long id;
     private String name;
     private double price;
+    private String description;
     private String categoryName;
 
     public Long getId() {
@@ -33,6 +34,14 @@ public class ProductTestDto {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getCategoryName() {

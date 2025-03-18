@@ -8,8 +8,11 @@ export const register = async (username: string, email: string, password: string
 
 export const login = async (username: string, password: string) => {
     const response = await axios.post(API_URL + "token", {username, password});
-    if (response.data.token){
+    console.log("Ответ от сервера:", response.data);
+    if (response.data){
         localStorage.setItem("user", JSON.stringify(response.data));
+    } else {
+        console.error("Ошибка: токен отсутствует в ответе");
     }
     return response.data;
 }
@@ -20,4 +23,9 @@ export const logout =  () => {
 
 export const getCurrentUser = () => {
     return JSON.parse(localStorage.getItem("user") || "{}");
+}
+
+export const getAuthHeader = () => {
+    const token = getCurrentUser();
+    return token ? { Authorization: `Bearer ${token}` } : {}
 }
