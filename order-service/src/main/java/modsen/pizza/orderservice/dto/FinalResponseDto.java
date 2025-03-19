@@ -1,39 +1,20 @@
-package modsen.pizza.orderservice.entity;
+package modsen.pizza.orderservice.dto;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.util.List;
 
-@Entity
-@Table(name = "orders")
 @AllArgsConstructor
-@Data
-@Builder
-public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@Column(name = "id")
-    //@NotNull(message = "Id cannot be null!")
+@NoArgsConstructor
+public class FinalResponseDto {
     private Long id;
-    //@Column(name = "user_id")
-    @NotNull(message = "User id cannot be null!")
     private Long userId;
     private double totalPrice;
     private boolean isPaid;
     private Date createdAt;
-
-    public Order(Long id, Long userId) {
-        this.id = id;
-        this.userId = userId;
-    }
-
-    public Order() {
-    }
+    private List<OrderItemRequest> items;
 
     public Long getId() {
         return id;
@@ -73,5 +54,13 @@ public class Order {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public List<OrderItemRequest> getItems() {
+        return items;
+    }
+
+    public void setItems(List<OrderItemRequest> items) {
+        this.items = items;
     }
 }

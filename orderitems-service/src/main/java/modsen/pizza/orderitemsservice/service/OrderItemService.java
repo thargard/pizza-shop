@@ -30,7 +30,7 @@ public class OrderItemService {
         OrderItem orderItem = new OrderItem();
         orderItem.setOrderId(dto.getOrderId());
         orderItem.setProductId(dto.getProductId());
-        orderItem.setAmount(dto.getAmount());
+        orderItem.setQuantity(dto.getAmount());
         return orderItemRepository.save(orderItem);
     }
 
@@ -41,10 +41,11 @@ public class OrderItemService {
             if (productClient.getProductById(item.getProductId())==null){
                 throw new EntityNotFoundException("Product not found");
             }
+            System.out.println("Получен продукт - " + item);
             OrderItem orderItem = new OrderItem();
             orderItem.setOrderId(orderId);
             orderItem.setProductId(item.getProductId());
-            orderItem.setAmount(item.getAmount());
+            orderItem.setQuantity(item.getQuantity());
             orderItems.add(orderItem);
         }
         orderItemRepository.saveAll(orderItems);

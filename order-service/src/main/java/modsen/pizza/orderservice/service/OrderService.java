@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,15 +38,22 @@ public class OrderService {
         if (userClient.getUserById(req.getUserId()) == null) {
             throw new EntityNotFoundException("User not found");
         }
+        System.out.println("Полученый объект - " + req); // проверяем что пришло
+
         Order preorder = new Order();
         preorder.setUserId(req.getUserId());
+        preorder.setPaid(false);
+        preorder.setCreatedAt(Date.valueOf(LocalDate.now())); // делает только yyyy-mm-dd нет времени
+        preorder.setTotalPrice(req.getTotalPrice());
         Order order = orderRepository.save(preorder);
 
         orderItemClient.createOrderItems(order.getId(), req.getItems());
+
         OrderResponseDto response = new OrderResponseDto();
         response.setOrderId(order.getId());
         response.setUserId(req.getUserId());
         response.setItems(req.getItems());
+
         return response;
     }
 
@@ -64,7 +73,7 @@ public class OrderService {
                 if (item.getOrderId().equals(order.getId())){
                     OrderItemRequest itemRequest = new OrderItemRequest();
                     itemRequest.setProductId(item.getProductId());
-                    itemRequest.setAmount(item.getAmount());
+                    itemRequest.setQuantity(item.getAmount());
                     requests.add(itemRequest);
                 }
             }
@@ -91,15 +100,34 @@ public class OrderService {
         return response;
     }
 
-    public List<OrderResponseDto> getAllOrdersByUserId(Long userId) {
+    public List<FinalResponseDto> getAllOrdersByUserId(Long userId) {
         if (userClient.getUserById(userId) == null) {
             throw new EntityNotFoundException("User not found");
         }
 
-        List<OrderResponseDto> responses = new ArrayList<>();
+        /*List<OrderResponseDto> responses = new ArrayList<>();
         for (OrderResponseDto orderResponseDto : getAllOrders()) {
             if (orderResponseDto.getUserId().equals(userId)) {
                 responses.add(orderResponseDto);
+            }
+        }*/
+        List<OrderResponseDto> allOrders = getAllOrders();
+        List<FinalResponseDto> responses = new ArrayList<>();
+        for (Order order: findAll()){
+            if (order.getUserId().equals(userId)){
+                FinalResponseDto finalDto = new FinalResponseDto();
+                finalDto.setId(order.getId());
+                finalDto.setUserId(order.getUserId());
+                finalDto.setTotalPrice(order.getTotalPrice());
+                finalDto.setPaid(order.isPaid());
+                finalDto.setCreatedAt(order.getCreatedAt());
+                for (OrderResponseDto dto : allOrders){
+                    if (dto.getOrderId().equals(order.getId())){
+                        finalDto.setItems(dto.getItems());
+                        break;
+                    }
+                }
+                responses.add(finalDto);
             }
         }
         return responses;

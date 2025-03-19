@@ -13,7 +13,7 @@ public class OrderItemMapper {
         OrderItemDto dto = new OrderItemDto();
         dto.setOrderId(item.getOrderId());
         dto.setProductId(item.getProductId());
-        dto.setAmount(item.getAmount());
+        dto.setAmount(item.getQuantity());
         return dto;
     }
 
@@ -21,7 +21,7 @@ public class OrderItemMapper {
         OrderItem item = new OrderItem();
         item.setOrderId(dto.getOrderId());
         item.setProductId(dto.getProductId());
-        item.setAmount(dto.getAmount());
+        item.setQuantity(dto.getAmount());
         return item;
     }
 
@@ -31,7 +31,7 @@ public class OrderItemMapper {
             OrderItemDto dto = new OrderItemDto();
             dto.setOrderId(item.getOrderId());
             dto.setProductId(item.getProductId());
-            dto.setAmount(item.getAmount());
+            dto.setAmount(item.getQuantity());
             dtos.add(dto);
         }
         return dtos;

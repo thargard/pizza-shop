@@ -5,6 +5,7 @@ interface CartContextType {
     cart: Product[];
     addToCart: (product: Product) => void;
     removeFromCart: (id: number) => void;
+    clearCart: () => void;
 }
 
 interface CartProviderProps {
@@ -42,7 +43,11 @@ export const CartProvider : React.FC<CartProviderProps> = ({ children }) => {
         setCart((prevCart) => prevCart.filter((item : Product) => item.id !== id));
     };
 
+    const clearCart = () => {
+        setCart([]);
+    }
+
     return (
-        <CartContext.Provider value={{ cart, addToCart, removeFromCart}}>{children}</CartContext.Provider>
+        <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart}}>{children}</CartContext.Provider>
     );
 };

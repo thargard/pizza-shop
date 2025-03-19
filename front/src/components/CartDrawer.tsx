@@ -9,7 +9,7 @@ interface CartDrawerProps {
 }
 
 const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
-    const { cart, removeFromCart } = useCart();
+    const { cart, removeFromCart, clearCart } = useCart();
 
     const orderProducts = cart.map((item) => ({
         productId: item.id,
@@ -17,9 +17,21 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
     }));
 
     const handleCheckout = async () => {
+        if (cart.length === 0){
+            alert("Корзина пуста!");
+            return;
+        }
+
+        const orderData = {
+            items: orderProducts,
+            totalPrice: cart.reduce((sum, item) => sum + (item.quantity ? item.quantity * item.price : 0), 0),
+        };
+
         try {
-            const response = await createOrder(orderProducts);
+            const response = await createOrder(orderData);
             console.log("Отправка заказа: ", response);
+            clearCart();
+            onClose();
         } catch (error) {
             console.error("Ошибка при оформлении заказа!");
         }
