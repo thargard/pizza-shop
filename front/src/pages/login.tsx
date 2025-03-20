@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {getUserData, login} from "../services/authService";
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import "../css/auth.css"
 
 export default function Login() {
     const [username, setUsername] = useState("");
@@ -18,13 +19,18 @@ export default function Login() {
     };
 
     return (
-        <div>
+        <div className="auth-container">
             <h2>Вход</h2>
-            <form onSubmit={handleLogin}>
-                <input type="text" placeholder="Имя" value={username} onChange={(e) => setUsername(e.target.value)} required />
-                <input type="password" placeholder="Пароль" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            <form onSubmit={handleLogin} className="auth-form">
+                <input type="text" placeholder="Имя" value={username} onChange={(e) => setUsername(e.target.value)}
+                       required/>
+                <input type="password" placeholder="Пароль" value={password}
+                       onChange={(e) => setPassword(e.target.value)} required/>
                 <button type="submit">Войти</button>
             </form>
+            <p className="register-link">
+                Нет аккаунта? <Link to="/register">Зарегистрироваться</Link>
+            </p>
         </div>
     );
 }

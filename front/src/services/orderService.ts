@@ -1,6 +1,6 @@
 import axios from "axios";
-import {getAuthHeader, getCurrentUser, getUserInfo} from "./authService";
-import {Product} from "../pages/products";
+import {getAuthHeader, getUserInfo} from "./authService";
+import {data} from "react-router-dom";
 
 const API_URL = "http://localhost:8082/api/v1/orders";
 
@@ -37,6 +37,18 @@ export const findOrdersByUserId = async (userId: number) => {
         return response.data;
     } catch (error) {
         console.error("Ошибка при получении данных с сервера!", error);
+        return [];
+    }
+}
+
+export const payForOrder = async (orderId: number) => {
+    try {
+        const response = await axios.post(API_URL + `/${orderId}/pay`, {}, { headers: getAuthHeader()});
+        console.log("Ответ - ", response);
+        console.log("Данные из ответа - ", response.data);
+        return response.data;
+    } catch (error) {
+        console.error("Ошибка при обновлении статуса заказа!", error);
         return [];
     }
 }

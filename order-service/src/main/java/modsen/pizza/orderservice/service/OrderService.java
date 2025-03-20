@@ -59,8 +59,10 @@ public class OrderService {
 
     public List<OrderResponseDto> getAllOrders() {
         List<Order> orders = orderRepository.findAll();
-        Page<OrderItemDto> page = orderItemClient.getOrderItems();
-        List<OrderItemDto> items = page.getContent();
+        /*Page<OrderItemDto> page = orderItemClient.getOrderItems();
+        List<OrderItemDto> items = page.getContent();*/
+        List<OrderItemDto> items = orderItemClient.getDefault();
+
 
         List<OrderResponseDto> orderResponseDtos = new ArrayList<>();
 
@@ -133,6 +135,17 @@ public class OrderService {
         return responses;
     }
 
+    public Order updateStatus(Long id){
+        System.out.println("Пришел id - " + id);
+        if(orderRepository.existsById(id)){
+            Order order = orderRepository.findById(id).get();
+            order.setPaid(true);
+            return orderRepository.save(order);
+        } else {
+            throw new EntityNotFoundException("Order with id" + id + " not found");
+        }
+    }
+
     public List<Order> findAll() { return orderRepository.findAll(); }
 
     public Page<Order> findAll(Pageable pageable) { return orderRepository.findAll(pageable); }
@@ -145,6 +158,5 @@ public class OrderService {
         } else {
             throw new EntityNotFoundException("Order with id" + id + " not found");
         }
-
     }
 }

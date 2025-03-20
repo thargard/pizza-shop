@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {Product} from "./products";
 import "../css/orders.css"
+import {payForOrder} from "../services/orderService";
 
 interface OrderItem {
     productId: number;
@@ -12,7 +13,7 @@ export interface Order {
     id: number;
     userId: number;
     totalPrice: number;
-    isPaid: boolean;
+    paid: boolean;
     createdAt: string;
     items: OrderItem[];
 }
@@ -68,7 +69,11 @@ const OrdersPage: React.FC<OrdersPageProps> = ({ orders, products }: OrdersPageP
     console.log("Сложный заказ - ", complexOrders)
 
     const handlePayment = async (orderId: number) => {
-        // передаём на сервер что заказ оплачен
+        try {
+            const data = await payForOrder(orderId);
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (
@@ -82,8 +87,8 @@ const OrdersPage: React.FC<OrdersPageProps> = ({ orders, products }: OrdersPageP
                         <div key={order.id} className="order-card">
                             <h3 className="order-header">Заказ #{order.id}</h3>
                             <p className="order-total">Дата: {new Date(order.createdAt).toLocaleDateString()}</p>
-                            <p className={`order-status ${order.isPaid ? 'paid' : 'unpaid'}`}>
-                                {order.isPaid ? "Оплачен" : "Ожидает оплаты"}
+                            <p className={`order-status ${order.paid ? 'paid' : 'unpaid'}`}>
+                                {order.paid ? "Оплачен" : "Ожидает оплаты"}
                             </p>
                             <ul className="order-items">
                                 {order.products.map((item, index) => (
@@ -94,7 +99,7 @@ const OrdersPage: React.FC<OrdersPageProps> = ({ orders, products }: OrdersPageP
                                 ))}
                             </ul>
                             <p className="order-total">Итого: {order.totalPrice} ₽</p>
-                            {!order.isPaid && (
+                            {!order.paid && (
                                 <button className="pay-button" onClick={() => handlePayment(order.id)}>
                                     Оплатить
                                 </button>

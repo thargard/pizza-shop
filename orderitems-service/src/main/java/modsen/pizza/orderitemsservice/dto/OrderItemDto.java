@@ -35,4 +35,13 @@ public class OrderItemDto {
     public void setAmount(int amount) {
         this.amount = amount;
     }
+
+    @Override
+    public String toString() {
+        return "OrderItemDto{" +
+                "orderId=" + orderId +
+                ", productId=" + productId +
+                ", amount=" + amount +
+                '}';
+    }
 }
