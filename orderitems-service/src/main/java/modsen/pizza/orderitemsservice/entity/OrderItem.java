@@ -2,7 +2,6 @@ package modsen.pizza.orderitemsservice.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -25,7 +24,7 @@ public class OrderItem {
     //@Column(name = "amount")
     //@NotNull(message = "Amount cannot be empty!")
     @Min(value = 1, message = "Amount cannot be 0 or negative!")
-    private int amount;
+    private int quantity;
 
     public Long getId() {
         return id;
@@ -51,11 +50,11 @@ public class OrderItem {
         this.productId = productId;
     }
 
-    public int getAmount() {
-        return amount;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
+    public void setQuantity(int amount) {
+        this.quantity = amount;
     }
 }

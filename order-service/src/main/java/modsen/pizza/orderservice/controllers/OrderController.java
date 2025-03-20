@@ -1,10 +1,7 @@
 package modsen.pizza.orderservice.controllers;
 
 import jakarta.validation.Valid;
-import modsen.pizza.orderservice.dto.OrderDto;
-import modsen.pizza.orderservice.dto.OrderRequest;
-import modsen.pizza.orderservice.dto.OrderResponseDto;
-import modsen.pizza.orderservice.dto.OrderResponseExpandedDto;
+import modsen.pizza.orderservice.dto.*;
 import modsen.pizza.orderservice.entity.Order;
 import modsen.pizza.orderservice.kafka.OrderEventConsumer;
 import modsen.pizza.orderservice.mapper.OrderMapper;
@@ -35,13 +32,18 @@ public class OrderController {
         //return new ResponseEntity<>(orderMapper.toOrderDto(orderService.save(dto)), HttpStatus.OK);
     }
 
-    /*@GetMapping("/all")
-    public ResponseEntity<List<OrderResponseDto>> getOrders() {
-        return new ResponseEntity<>(orderService.getAllOrders(), HttpStatus.OK);
-    }*/
+    @PostMapping("/{orderId}/pay")
+    public ResponseEntity<Order> payOrder(@PathVariable("orderId") Long orderId) {
+        return new ResponseEntity<>(orderService.updateStatus(orderId), HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Order>> getOrders() {
+        return new ResponseEntity<>(orderService.findAll(), HttpStatus.OK);
+    }
 
     @GetMapping("/all/{userId}")
-    public ResponseEntity<List<OrderResponseDto>> getOrdersByUserId(@PathVariable Long userId) {
+    public ResponseEntity<List<FinalResponseDto>> getOrdersByUserId(@PathVariable Long userId) {
         return new ResponseEntity<>(orderService.getAllOrdersByUserId(userId), HttpStatus.OK);
     }
 

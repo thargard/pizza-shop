@@ -46,6 +46,15 @@ public class OrderItemController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/default")
+    public ResponseEntity<List<OrderItemDto>> getDefault(){
+        List<OrderItemDto> dtos = orderItemMapper.mapList(orderItemService.findAll());
+        for (OrderItemDto dto : dtos) {
+            System.out.println("dto = " + dto);
+        }
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
     @PutMapping
     public ResponseEntity<OrderItemDto> update(@RequestBody OrderItem item){
         return new ResponseEntity<>(orderItemMapper.toDto(orderItemService.update(item)), HttpStatus.OK);

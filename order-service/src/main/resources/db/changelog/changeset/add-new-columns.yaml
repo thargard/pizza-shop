@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: added totalPrice, isPaid and createdAt columns
+      author: Boris Margolin
+      changes:
+        - addColumn:
+            tableName: orders
+            columns:
+              - column:
+                  name: total_price
+                  type: double
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_paid
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: datetime
+                  constraints:
+                    nullable: false

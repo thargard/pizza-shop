@@ -18,4 +18,7 @@ public interface OrderItemClient {
 
     @GetMapping("/api/v1/order-items")
     Page<OrderItemDto> getOrderItems();
+
+    @GetMapping("/api/v1/order-items/default")
+    List<OrderItemDto> getDefault();
 }

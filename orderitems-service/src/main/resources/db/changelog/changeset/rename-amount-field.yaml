@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: rename amount to quantity
+      author: Boris Margolin
+      changes:
+        - renameColumn:
+            columnDataType: int
+            newColumnName: quantity
+            oldColumnName: amount
+            remarks: A change in names
+            tableName: order_items
